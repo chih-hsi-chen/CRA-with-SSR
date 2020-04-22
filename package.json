@@ -3,18 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.9.11",
+    "@material-ui/icons": "^4.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "express": "^4.17.1",
+    "npm-run-all": "^4.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-helmet": "^6.0.0",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "styled-jsx": "^3.2.5",
+    "webpack-merge": "^4.2.2",
+    "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server_build/bundle.js",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "client:server": "react-app-rewired start",
+    "dev": "npm run build-server && npm run build && npm-run-all --parallel dev:*",
+    "build-server": "webpack --config webpack.server.js",
+    "dev:build-server": "webpack --config webpack.server.js --watch",
+    "dev:server": "nodemon --watch server_build --exec \"node server_build/bundle.js\"",
+    "build:prod": "rm -rf server_build && npm run build && npm run build-server"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +46,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "customize-cra": "^0.9.1",
+    "ignore-loader": "^0.1.2",
+    "isomorphic-style-loader": "^5.1.0",
+    "nodemon": "^2.0.3",
+    "react-app-rewired": "^2.1.5",
+    "webpack-cli": "^3.3.11"
   }
 }
