@@ -22,15 +22,15 @@
   },
   "scripts": {
     "start": "node server_build/bundle.js",
-    "build": "react-app-rewired build",
+    "build": "rm -rf server_build && npm run client:build && npm run build-server",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
+    "client:build": "react-app-rewired build",
     "client:server": "react-app-rewired start",
-    "dev": "npm run build-server && npm run build && npm-run-all --parallel dev:*",
+    "dev": "npm run build-server && npm run client:build && npm-run-all --parallel dev:*",
     "build-server": "webpack --config webpack.server.js",
     "dev:build-server": "webpack --config webpack.server.js --watch",
-    "dev:server": "nodemon --watch server_build --exec \"node server_build/bundle.js\"",
-    "build:prod": "rm -rf server_build && npm run build && npm run build-server"
+    "dev:server": "nodemon --watch server_build --exec \"node server_build/bundle.js\""
   },
   "eslintConfig": {
     "extends": "react-app"
