@@ -12,7 +12,9 @@ function App() {
 		<div className="App">
 			<header className="App-header">
 				<Logo className="App-logo" alt="logo" stroke="#DB7290" strokeWidth="1rem"/>
-				<img src={cat} />
+				<img src={cat} style = {{
+					"width": "100%",
+				}} />
 				<ShoppingCartOutlined />
 				<p>
 					Edit <code>src/App.js</code> and save to reload.

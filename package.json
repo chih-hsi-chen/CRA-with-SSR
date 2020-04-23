@@ -26,10 +26,11 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "client:build": "react-app-rewired build",
-    "client:server": "react-app-rewired start",
-    "dev": "npm run build-server && npm run client:build && npm-run-all --parallel dev:*",
+    "client:start": "react-app-rewired start",
+    "dev": "npm run build-server && npm-run-all --parallel dev:*",
     "build-server": "webpack --config webpack.server.js",
-    "dev:build-server": "webpack --config webpack.server.js --watch",
+    "dev:server-watch": "webpack --config webpack.server.js --watch",
+    "dev:client-watch": "cra-build-watch",
     "dev:server": "nodemon --watch server_build --exec \"node server_build/bundle.js\""
   },
   "eslintConfig": {
@@ -48,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "cra-build-watch": "^3.2.0",
     "customize-cra": "^0.9.1",
     "ignore-loader": "^0.1.2",
     "isomorphic-style-loader": "^5.1.0",

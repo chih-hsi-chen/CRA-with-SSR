@@ -11,6 +11,7 @@ class Header extends Component {
         return (
             <div>
                 <h1>I'm header.jsx</h1>
+                <p>We need change.</p>
             </div>
         );
     }
