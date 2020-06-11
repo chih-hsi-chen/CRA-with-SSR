@@ -1,17 +1,16 @@
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { StaticRouter, matchPath, Route } from 'react-router-dom';
-import { matchRoutes, renderRoutes } from 'react-router-config';
-import serialize from 'serialize-javascript';
+import { matchRoutes } from 'react-router-config';
 import express from 'express';
 import compression from 'compression';
 import fs from 'fs';
 import path from 'path';
-import App from '../App';
+import createStore from "../helpers/createStore";
 import Routes from '../helpers/routes';
+import userRouer from './routes/user';
+import renderer from './renderer';
 
 const app = express();
 const port = process.env.PORT || 3000;
+const store = createStore();
 
 function shouldCompress(req, res) {
     if (req.headers['x-no-compression']) return false;
@@ -41,37 +40,27 @@ app.use(
         filter: shouldCompress // set predicate to determine whether to compress
     })
 );
-app.use(express.static("build"));
+
+app.get('/*.*', express.static("build"));
+
+app.use('/api', userRouer);
 
 app.get("*", (req, res, next) => {
     const matched_routes = matchRoutes(Routes, req.path);
-    const routes_with_loadData = matched_routes.filter(({ route }) => {
-        return route.loadData;
-    });
-    let promises = [];
-
-    routes_with_loadData.forEach(({ route }) => {
-        promises.push(route.loadData());
-    });
-
-    Promise.all(promises).then(dataArr => {
-        let data = {};
-        routes_with_loadData.forEach(({ route, match }, idx) => {
-            data[match.url] = dataArr[idx];
+    
+    const promises = matched_routes
+        .map(({ route }) => {
+            return route.loadData ? route.loadData(store) : null;
         });
+    Promise.all(promises).then(() => {
 
-        const context = { data };
-        const app = renderToString(
-            <StaticRouter location={req.url} context={context} >
-                <div>{renderRoutes(Routes)}</div>
-            </StaticRouter>
-        );
-
-        fs.readFile(path.resolve("./build/index.html"), "utf-8", (err, indexData) => {
-            if (err) {
-                console.log(err);
+        fs.readFile(path.resolve('./build/index.html'), 'utf-8', (err, indexData) => {
+            if(err) {
                 return res.status(500).send("Some error happened");
             }
+            const context = {};
+            const content = renderer(req, store, context, indexData);
+
             if (context.status === 404) {
                 res.status(404);
             }
@@ -79,17 +68,7 @@ app.get("*", (req, res, next) => {
                 return res.redirect(301, context.url);
             }
 
-            return res.send(
-                indexData
-                    .replace(
-                        '<div id="root"></div>',
-                        `<div id="root">${app}</div>`
-                    )
-                    .replace(
-                        '</body>',
-                        `<script>window.__ROUTE_DATA__ = ${serialize(data)}</script></body>`
-                    )
-            );
+            return res.send(content);
         });
     });
 });

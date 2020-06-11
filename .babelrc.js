@@ -16,6 +16,7 @@ module.exports = {
 				"useESModules": false,
 				"version": "7.9.0"
 			}
-		]
+		],
+		"transform-class-properties"
 	]
 };

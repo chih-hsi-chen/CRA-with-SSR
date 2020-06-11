@@ -1,14 +1,8 @@
 import App from '../App.js';
 import {
-    Home,
-    Posts,
-    Todos,
-    Child,
-    GrandChild,
     NotFound
 } from '../pages/pages.jsx';
-
-import loadData from './loadData.js';
+import Home from '../pages/Home.jsx';
 
 const Routes = [
     {
@@ -17,29 +11,7 @@ const Routes = [
             {
                 path: '/',
                 exact: true,
-                component: Home
-            },
-            {
-                path: '/posts',
-                component: Posts,
-                loadData: () => loadData('posts')
-            },
-            {
-                path: '/todos',
-                component: Todos,
-                loadData: () => loadData('todos')
-            },
-            {
-                path: '/child',
-                component: Child,
-                loadData: () => loadData('posts'),
-                routes: [
-                    {
-                        path: '/child/:grandchild',
-                        component: GrandChild,
-                        loadData: () => loadData('todos'),
-                    }
-                ],
+                ...Home
             },
             {
                 component: NotFound
