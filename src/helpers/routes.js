@@ -1,8 +1,6 @@
-import App from '../App.js';
-import {
-    NotFound
-} from '../pages/pages.jsx';
-import Home from '../pages/Home.jsx';
+import App from '../App';
+import Home from '../pages/Home';
+import NotFound from "../pages/NotFound";
 
 const Routes = [
     {

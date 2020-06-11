@@ -71,6 +71,9 @@ const config = {
 	},
 	node: {
 		__dirname: false
+	},
+	resolve: {
+		extensions: ['.js', '.jsx']
 	}
 };
 
