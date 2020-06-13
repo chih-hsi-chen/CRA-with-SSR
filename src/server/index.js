@@ -1,12 +1,20 @@
-import { matchRoutes } from 'react-router-config';
+import './config';
 import express from 'express';
-import compression from 'compression';
 import fs from 'fs';
 import path from 'path';
-import createStore from "../helpers/createStore";
-import Routes from '../helpers/routes';
+// middlewares
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import passport from './middlewares/passport';
+import database from './middlewares/database';
+import compression from 'compression';
 import userRouer from './routes/user';
+// React Server Side Rendering helpers
+import createStore from "../helpers/createStore";
+import { matchRoutes } from 'react-router-config';
+import Routes from '../helpers/routes';
 import renderer from './renderer';
+import Auth from './middlewares/auth';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -40,12 +48,30 @@ app.use(
         filter: shouldCompress // set predicate to determine whether to compress
     })
 );
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+app.use(database);
+app.use(passport.initialize());
 
 app.get('/*.*', express.static("build"));
-
 app.use('/api', userRouer);
 
-app.get("*", (req, res, next) => {
+app.get('/protected', Auth, RenderMiddleware);
+
+app.get("/*", RenderMiddleware);
+
+app.listen(port, () => {
+    console.log(`Listening on port: ${port}`);
+});
+
+/**
+ * 
+ * @param { import('express').Request } req 
+ * @param { import('express').Response } res
+ */
+function RenderMiddleware (req, res) {
     const matched_routes = matchRoutes(Routes, req.path);
     
     const promises = matched_routes
@@ -53,7 +79,6 @@ app.get("*", (req, res, next) => {
             return route.loadData ? route.loadData(store) : null;
         });
     Promise.all(promises).then(() => {
-
         fs.readFile(path.resolve('./build/index.html'), 'utf-8', (err, indexData) => {
             if(err) {
                 return res.status(500).send("Some error happened");
@@ -70,9 +95,7 @@ app.get("*", (req, res, next) => {
 
             return res.send(content);
         });
+    }).catch((err) => {
+        return res.status(500).sendFile(path.resolve('./build/ServerError.html'));
     });
-});
-
-app.listen(port, () => {
-    console.log(`Listening on port: ${port}`);
-});
+}
