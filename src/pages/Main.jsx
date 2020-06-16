@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Header from "../components/Header";
+import Header from '../components/Header';
 import HeroBanner from '../components/HeroBanner';
 import CategoryList from '../components/CategoryList';
 import ProductCardList from '../components/ProductCardList';
