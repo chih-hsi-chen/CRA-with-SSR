@@ -5,5 +5,5 @@ const {
 const path = require("path");
 
 module.exports = override(
-    addBabelPlugin(['styled-jsx/babel']),
+    // addBabelPlugin(['styled-jsx/babel']),
 );

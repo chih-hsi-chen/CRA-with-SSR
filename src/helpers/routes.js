@@ -1,5 +1,5 @@
 import App from '../App';
-import Home from '../pages/Home';
+import Main from '../pages/Main';
 import Login from "../pages/Login";
 import Protected from "../pages/ProtectedPage";
 import NotFound from "../pages/NotFound";
@@ -11,7 +11,7 @@ const Routes = [
             {
                 path: '/',
                 exact: true,
-                ...Home
+                ...Main
             },
             {
                 path: '/login',

@@ -1,27 +1,23 @@
 import React, {useState} from 'react';
 import 'isomorphic-fetch';
 
-function onSubmit(username, password) {
-    const fetchOpt = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    };
-
-    fetch('http://localhost:3000/api/login', fetchOpt)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}
-
 function Login(props) {
     const [username, writename] = useState('');
     const [password, writeword] = useState('');
 
+    function onSubmit(username, password) {
+        const fetchOpt = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        };
+    
+        fetch('http://localhost:3000/api/login', fetchOpt)
+            .then(res => res.json())
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
     return <div>
         <input type="text" name='username' value={username} onChange={e => writename(e.target.value)} />

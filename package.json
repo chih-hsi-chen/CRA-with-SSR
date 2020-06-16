@@ -31,7 +31,6 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "serialize-javascript": "^3.0.0",
-    "styled-jsx": "^3.2.5",
     "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2"
   },
@@ -43,7 +42,7 @@
     "client:build": "react-app-rewired build",
     "client:start": "react-app-rewired start",
     "dev": "npm run build-server && npm-run-all --parallel dev:*",
-    "build-server": "webpack --config webpack.server.js",
+    "build-server": "webpack -p --config webpack.server.js",
     "dev:server-watch": "webpack --config webpack.server.js --watch",
     "dev:client-watch": "cra-build-watch",
     "dev:server": "nodemon --watch server_build --exec \"node server_build/bundle.js\""
@@ -70,6 +69,7 @@
     "ignore-loader": "^0.1.2",
     "nodemon": "^2.0.3",
     "react-app-rewired": "^2.1.5",
+    "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
   }
 }

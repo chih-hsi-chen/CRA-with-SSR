@@ -51,10 +51,13 @@ router.post('/login', function (req, res) {
     })(req, res);
 });
 
-router.get('/protected', Auth, function (req, res) {
-    const { user } = req;
-
-    return res.status(200).send({ user });
+router.get('/auth', function (req, res) {
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+        if((!err || !info) && user) {
+            return res.status(200).send({ isAuthenticated: true })
+        }
+        return res.status(401).send({ isAuthenticated: false });
+    })(req, res);
 });
 
 export default router;

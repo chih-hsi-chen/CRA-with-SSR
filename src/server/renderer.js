@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from "react-redux";
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
+import renderRoutes from '../helpers/renderRouteCustom';
 import serialize from 'serialize-javascript';
 import Routes from '../helpers/routes';
 

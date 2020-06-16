@@ -1,5 +1,69 @@
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --main-theme: rgb(165, 62, 177);
+    --section-title-color: #1b191b;
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,"PingFang TC","Heiti TC","Microsoft JhengHei",sans-serif;
+    /* background-color: rgb(242, 242, 242); */
+}
+
+.homepage-section {
+    margin-top: 1.5rem;
+    background-color: white;
+}
+.l-wrapper {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 12px;
+}
+@media (min-width: 1248px) {
+    .l-wrapper {
+        padding: 0;
+    }
+}
+@media (min-width: 948px) {
+    .l-wrapper {
+        padding: 0 24px;
+    }
+}
+
+.homepage-section__header {
+    padding: 1.25rem;
+    color: var(--section-title-color, #562c6b);
+}
+.homepage-section__header h1 {
+    font-size: 1.5rem;
+}
+
+.hide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+.hide-scrollbar::-webkit-scrollbar { 
+    display: none; /* Chrome Safari */
+}
+
+@media (max-width: 900px) {
+    html {
+        font-size: 14px;
+    }
+    .main-container {
+        padding-top: 65px;
+    }
+    .homepage-section__content {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 12px;
+    }
 }

@@ -6,9 +6,11 @@ function Home(props) {
     const {todos} = props;
 
     return (
-        <ul>
-            {todos.map(todo => <li key={todo.id}>{todo.title}</li>)}
-        </ul>
+        <>
+            <ul>
+                {todos.map(todo => <li key={todo.id}>{todo.title}</li>)}
+            </ul>
+        </>
     );
 };
 

@@ -15,6 +15,7 @@ import { matchRoutes } from 'react-router-config';
 import Routes from '../helpers/routes';
 import renderer from './renderer';
 import Auth from './middlewares/auth';
+import { AUTH_VALIDATE } from "../actions/auth";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -78,11 +79,23 @@ function RenderMiddleware (req, res) {
         .map(({ route }) => {
             return route.loadData ? route.loadData(store) : null;
         });
+
+    if(req.user) {
+        store.dispatch({
+            type: AUTH_VALIDATE,
+            payload: {
+                isAuthed: true,
+                isServerControl: true
+            }
+        });
+    }
+
     Promise.all(promises).then(() => {
         fs.readFile(path.resolve('./build/index.html'), 'utf-8', (err, indexData) => {
             if(err) {
                 return res.status(500).send("Some error happened");
             }
+            
             const context = {};
             const content = renderer(req, store, context, indexData);
 

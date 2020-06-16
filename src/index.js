@@ -4,7 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
+import renderRoutes from './helpers/renderRouteCustom';
 import './index.css';
 import Routes from './helpers/routes';
 import reducers from './reducers/index';
@@ -18,9 +18,7 @@ const store = createStore(reducers, preloadedState, applyMiddleware(thunk));
 ReactDOM.hydrate(
   <Provider store={store}>
     <BrowserRouter>
-      <React.StrictMode>
-        <div>{renderRoutes(Routes)}</div>
-      </React.StrictMode>
+      <div>{renderRoutes(Routes)}</div>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')
