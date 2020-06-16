@@ -23,12 +23,10 @@ function getServerEnvironment(publicUrl, NODE_ENV) {
 				NODE_ENV
 			}
 		);
-	const stringified_raw_object = {
-		'process.env': Object.keys(raw).reduce((env, key) => {
-			env[key] = JSON.stringify(raw[key]);
-			return env;
-		}, {})
-	};
+	const stringified_raw_object = Object.keys(raw).reduce((env, key) => {
+		env['process.env.' + key] = JSON.stringify(raw[key]);
+		return env;
+	}, {});
 	return { raw, stringified_raw_object };
 }
 
