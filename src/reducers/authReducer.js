@@ -2,7 +2,8 @@ import { AUTH_VALIDATE, AUTH_KNOW_SERVER } from "../actions/auth";
 
 const initialState = {
     isAuthed: false,
-    isServerControl: false
+    isServerControl: false,
+    username: null
 };
 
 export default (state = initialState, action) => {

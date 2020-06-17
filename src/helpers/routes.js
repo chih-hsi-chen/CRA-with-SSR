@@ -1,6 +1,7 @@
 import App from '../App';
 import Main from '../pages/Main';
 import Login from "../pages/Login";
+import Register from "../pages/Signup";
 import Protected from "../pages/ProtectedPage";
 import NotFound from "../pages/NotFound";
 
@@ -16,6 +17,10 @@ const Routes = [
             {
                 path: '/login',
                 ...Login
+            },
+            {
+                path: '/register',
+                ...Register
             },
             {
                 path: '/protected',

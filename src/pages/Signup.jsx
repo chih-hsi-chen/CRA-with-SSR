@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import { useHistory } from "react-router-dom";
-import { doLogin } from '../helpers/api';
+import { doReigster } from '../helpers/api';
 
-function Login(props) {
+function Register(props) {
     const [username, writename] = useState('');
     const [password, writeword] = useState('');
     const history = useHistory();
 
     function onSubmit(username, password) {    
-        doLogin(username, password)
+        doReigster(username, password)
         .then(res => {
             const nextPage = props.from || '/';
             history.replace(nextPage);
@@ -26,5 +26,5 @@ function Login(props) {
 }
 
 export default {
-    component: Login,
+    component: Register,
 };

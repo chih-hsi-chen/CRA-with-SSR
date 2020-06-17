@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import renderRoutes from './helpers/renderRouteCustom';
 import { Switch, NavLink } from 'react-router-dom';
+import SafeLink from "./components/SafeLink";
 import { recognizeServer } from "./actions/auth";
 import './App.css';
 
@@ -22,13 +23,16 @@ class App extends React.Component {
 			<div>
 				<ul>
 					<li>
-						<NavLink to="/">Home</NavLink>
+						<SafeLink to="/">Home</SafeLink>
 					</li>
 					<li>
-						<NavLink to="/login">Login</NavLink>
+						<SafeLink to="/login">Login</SafeLink>
 					</li>
 					<li>
-						<NavLink to="/protected">Protected</NavLink>
+						<SafeLink to="/register">Signup</SafeLink>
+					</li>
+					<li>
+						<SafeLink to="/protected">Protected</SafeLink>
 					</li>
 				</ul>
 				<Switch>

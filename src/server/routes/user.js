@@ -19,7 +19,8 @@ router.post('/register', function (req, res, next) {
         return res.status(200).send({
             message: 'register success',
             user: {
-                username: user.username
+                username: user.username,
+                success: true
             },
         });
 
@@ -45,7 +46,10 @@ router.post('/login', function (req, res) {
             const token = jwt.sign(JSON.stringify(payload), process.env.SECRET);
 
             res.cookie('jwt', token, { httpOnly: true, secure: true });
-            return res.status(200).send({ username: user.username });
+            return res.status(200).send({
+                username: user.username,
+                success: true
+            });
         });
 
     })(req, res);
@@ -54,9 +58,12 @@ router.post('/login', function (req, res) {
 router.get('/auth', function (req, res) {
     passport.authenticate('jwt', { session: false }, function (err, user, info) {
         if((!err || !info) && user) {
-            return res.status(200).send({ isAuthenticated: true })
+            return res.status(200).json({
+                isAuthed: true,
+                username: user.username
+            })
         }
-        return res.status(401).send({ isAuthenticated: false });
+        return res.status(200).json({ isAuthed: false });
     })(req, res);
 });
 

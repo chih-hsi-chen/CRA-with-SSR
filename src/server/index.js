@@ -25,8 +25,6 @@ function shouldCompress(req, res) {
     return compression.filter(req, res);
 }
 
-console.log(process.env.SECRET);
-
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -58,10 +56,23 @@ app.use(database);
 app.use(passport.initialize());
 
 app.get('/*.*', express.static("build"));
+
+app.use(function(req, res, next) {
+    const method = req.method.toUpperCase();
+
+    if (method === 'GET' || method === 'HEAD' || method === 'OPTIONS') {
+        if (req.path.endsWith('/') && req.path.length > 1) {
+            const pathRemoveSlash = req.path.replace(/\/+$/, '');
+            const query = req.url.slice(req.path.length);
+
+            return res.redirect(301, (pathRemoveSlash.length !== 0 ? pathRemoveSlash : '/') + query);
+        }
+    }
+    return next();
+});
 app.use('/api', userRouer);
 
 app.get('/protected', Auth, RenderMiddleware);
-
 app.get("/*", RenderMiddleware);
 
 app.listen(port, () => {
@@ -86,7 +97,8 @@ function RenderMiddleware (req, res) {
             type: AUTH_VALIDATE,
             payload: {
                 isAuthed: true,
-                isServerControl: true
+                isServerControl: true,
+                username: req.user.username
             }
         });
     }
