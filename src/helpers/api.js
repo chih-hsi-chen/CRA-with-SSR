@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const REMOTE_SERVER = process.env.REACT_APP_SERVER || 'http://localhost:3000/api';
+const REMOTE_SERVER = 'https://my-cra-with-ssr.herokuapp.com/api';
 
 export function doLogin(username, password) {
     const url = REMOTE_SERVER + '/login';
